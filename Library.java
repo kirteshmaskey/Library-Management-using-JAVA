@@ -2,117 +2,74 @@ import java.io.*;
 import java.util.*;
 
 public class Library {
-    void bookIssue() {
-
+    int numberOfCopies = 0;
+    void bookIssue()
+    {
+        Scanner in = new Scanner(System.in);
+        System.out.println("Registration number of student : ");
+        String regNo = in.nextLine();
+        try {
+            int flag1=0;
+            File fr1 = new File("Students.txt");
+            Scanner s1 = new Scanner(fr1);
+            while(s1.hasNextLine())
+            {
+                String line = s1.nextLine();
+                String data1[] = line.split("\\|");
+                if(data1[1].equals(regNo))
+                {
+                    flag1 = 1;
+                    System.out.println("Book name or Book ID"); 
+                    String book = in.nextLine();
+                    try {
+                        int flag2=0;
+                        File fr2 = new File("Books.txt");
+                        Scanner s2 = new Scanner(fr2);
+                        while(s2.hasNextLine())
+                        {
+                            line = s2.nextLine();
+                            String data2[] = line.split("\\|");
+                            if(data2[0].equals(book) || data2[1].equals(book))
+                            {
+                                flag2 = 1;
+                                System.out.println("Book Issued!!");
+                                try {
+                                    FileWriter fw = new FileWriter("Books.txt", true);
+                                    int x = Integer.parseInt(data2[3]);
+                                    x-- ;
+                                    String str = data2[0] + "|" + data2[1] + "|" + data2[2] + "|" + x + "\n";
+                                    fw.write(str);
+                                    fw.close();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                break;
+                            }
+                        }
+                        if(flag2==0)
+                        {
+                            System.out.println("Book not available");
+                        }
+                        s2.close();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    break;
+                }
+            }
+            if(flag1 == 0)
+            {
+                System.out.println("Student details not available");
+            }
+            s1.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        in.close();
     }
 
     void returnBook() {
 
     }
-
-    public static void main(String[] args) {
-        Scanner in = new Scanner(System.in);
-
-        System.out.println("LOGIN AS :\n\t 1. STAFF \n\t 2. STUDENT");
-        int ch = Integer.parseInt(in.nextLine());
-        switch (ch) {
-            case 1:
-            Staff staff = new Staff();
-            System.out.print("Enter your login ID : ");
-            String loginIDStaff = in.nextLine();
-            String username = "admin";
-            if (loginIDStaff.equals(username)) {
-                System.out.println("1. ADD NEW BOOK \n2. REGISTER NEW STUDENT \n3. VIEW ALL BOOKS IN RECORD");
-                int cho = in.nextInt();
-                switch (cho) {
-                case 1:
-                    staff.addNewBook();
-                    break;
-
-                case 2:
-                    staff.addNewStudent();
-                    break;
-                    
-                case 3:
-                    staff.viewAllBooks();
-                    break;
-
-                default:
-                    System.out.println("Enter valid choice");
-                    break;
-                }
-            }
-            break;
-            
-            case 2:
-            break;
-
-        default:
-            System.out.println("Enter Valid Choice");
-        }
-    }
-}
-
-class Staff extends Library {
-    Scanner in = new Scanner(System.in);
-
-    void addNewBook() {
-        String bookName, authorName, bookID;
-        System.out.print("Name of book : ");
-        bookName = in.nextLine();
-        System.out.print("Author of book : ");
-        authorName = in.nextLine();
-        System.out.print("Book ID : ");
-        bookID = in.nextLine();
-        try {
-            FileWriter fw = new FileWriter("Books.txt", true);
-            String str = bookName + "|" + authorName + "|" + bookID + "\n";
-            fw.write(str);
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    void addNewStudent() {
-        String studentName;
-        int registrationID;
-        System.out.print("Name of student : ");
-        studentName = in.nextLine();
-        System.out.print("Registration number : ");
-        registrationID = in.nextInt();
-        try {
-            FileWriter fw = new FileWriter("Students.txt", true);
-            String str = studentName + "|" + registrationID + "\n";
-            fw.write(str);
-            fw.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    void viewAllBooks() {
-        System.out.println("All books that are available\n\n");
-        try{
-            File fr = new File("Books.txt");
-            Scanner s = new Scanner(fr);
-            // FileReader fr = new FileReader("Books.txt");
-            while(s.hasNextLine())
-            {
-                String line = s.nextLine();
-                String data[] = line.split("\\|");
-                System.out.println(data[0]);
-                System.out.println(data[1]);
-                System.out.println(data[2]);
-                System.out.println();
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-}
-
-class Student extends Library {
 
 }
