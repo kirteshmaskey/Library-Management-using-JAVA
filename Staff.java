@@ -62,7 +62,7 @@ class Staff extends Library {
     }
 
     void staffLogin() {
-        System.out.println("1. ADD NEW BOOK \n2. REGISTER NEW STUDENT \n3. VIEW ALL BOOKS IN RECORD \n4. ISSUE BOOK");
+        System.out.println("1. ADD NEW BOOK \n2. REGISTER NEW STUDENT \n3. VIEW ALL BOOKS IN RECORD \n4. ISSUE BOOK \n5. RETURN BOOK");
         int cho = Integer.parseInt(in.nextLine());
         switch (cho) {
             case 1:
@@ -78,12 +78,15 @@ class Staff extends Library {
                 break;
 
             case 4:
-                bookIssue();
+                issueBook();
+                break;
+
+            case 5:
+                returnBook();
                 break;
                 
             default:
-                System.out.println("Enter valid choice");
-                break;
+                return;
         }
     }
 }

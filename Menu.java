@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.*;
 
 public class Menu {
@@ -6,9 +5,9 @@ public class Menu {
         Scanner in = new Scanner(System.in);
         while(true)
         {
-            System.out.flush();
             System.out.println("LOGIN AS :\n\t 1. STAFF \n\t 2. STUDENT");
             int ch = Integer.parseInt(in.nextLine());
+
             switch (ch) {
                 case 1:
                     Staff staff = new Staff();
@@ -24,12 +23,14 @@ public class Menu {
                 break;
                 
                 case 2:
+                    Student student = new Student();
+                    student.studentLogin();
                 break;
 
                 default:
-                    return;
-                    // System.out.println("Enter Valid Choice");
-                }
+                    System.out.println("Enter Valid Choice");
+                    System.exit(0);
             }
+        }
     }
 }
