@@ -6,20 +6,51 @@ class Staff extends Library {
 
     void addNewBook() {
         String bookName, authorName, bookID;
+        int numberOfCopies = 0;
         System.out.print("Name of book : ");
         bookName = in.nextLine();
         System.out.print("Book ID : ");
         bookID = in.nextLine();
         System.out.print("Author of book : ");
         authorName = in.nextLine();
-        System.out.println("Number of copies : ");
+        System.out.print("Number of copies : ");
         numberOfCopies = Integer.parseInt(in.nextLine());
 
         try {
-            FileWriter fw = new FileWriter("Books.txt", true);
-            String str = bookName + "|" + bookID + "|" + authorName + "|" + numberOfCopies + "\n";
-            fw.write(str);
+            File fr = new File("Books.txt");
+            fr.createNewFile();
+            Scanner f = new Scanner(fr);
+            FileWriter fw = new FileWriter("Temp.txt", true);
+            int flag = 0;
+            while(f.hasNextLine())
+            {
+                String get = f.nextLine();
+                String tStr[] = get.split("\\|");
+                if(tStr[1].equals(bookID))
+                {
+                    flag = 1;
+                    int copies = Integer.parseInt(tStr[3]);
+                    copies = copies + numberOfCopies;
+                    String str = bookName + "|" + bookID + "|" + authorName + "|" + copies + "\n";
+                    fw.write(str);
+                }
+                else
+                {
+                    String str = tStr[0] + "|" + tStr[1] + "|" + tStr[2] + "|" + tStr[3] + "\n";
+                    fw.write(str);
+                }
+            }
+            if(flag == 0)
+            {
+                String str = bookName + "|" + bookID + "|" + authorName + "|" + numberOfCopies + "\n";
+                fw.write(str);
+            }
             fw.close();
+            f.close();
+            fr.delete();
+            File t = new File("Temp.txt");
+            File r = new File("Books.txt");
+            t.renameTo(r);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -32,10 +63,28 @@ class Staff extends Library {
         System.out.print("Registration number : ");
         registrationID = in.nextLine();
         try {
-            FileWriter fw = new FileWriter("Students.txt", true);
-            String str = studentName + "|" + registrationID + "\n";
-            fw.write(str);
-            fw.close();
+            File sf = new File("Students.txt");
+            sf.createNewFile();
+            Scanner sfs = new Scanner(sf);
+            int flag = 0;
+            while(sfs.hasNextLine())
+            {
+                String line = sfs.nextLine();
+                String data[] = line.split("\\|");
+                if(data[1].equals(registrationID))
+                {
+                    flag = 1;
+                    System.out.println("Student already registered");
+                } 
+            }
+            sfs.close();
+            if(flag == 0)
+            {
+                FileWriter fw = new FileWriter("Students.txt", true);
+                String str = studentName + "|" + registrationID + "\n";
+                fw.write(str);
+                fw.close();
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -49,10 +98,10 @@ class Staff extends Library {
             while (s.hasNextLine()) {
                 String line = s.nextLine();
                 String data[] = line.split("\\|");
-                System.out.println(data[0]);
-                System.out.println(data[1]);
-                System.out.println(data[2]);
-                System.out.println(data[3]);
+                System.out.println("Book name : " + data[0]);
+                System.out.println("BookId : " + data[1]);
+                System.out.println("Author : " + data[2]);
+                System.out.println("Number of copies : " + data[3]);
                 System.out.println();
             }
             s.close();
