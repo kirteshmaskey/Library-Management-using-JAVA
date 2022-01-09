@@ -1,10 +1,11 @@
 # Library Management System
 
-The library Management System is a system that helps library staff as well as student to do library stuff easily and without any interuption and problem.
+The **library Management System** is a system that helps library staff as well as student to do library stuff easily and without any interuption and problem.
 
 ## About Project
-    This Library Management System software is a simple command line program that can be used by both library staff as well as student.
-    The system consist of two types of login- Library staff login and Student login. 
+This Library Management System software is a simple command line program that can be used by both library staff as well as student.
+   
+The system consist of two types of login- Library staff login and Student login. 
   
 - Library staff can:
 1. Add new Book
